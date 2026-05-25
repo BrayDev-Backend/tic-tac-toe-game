@@ -41,3 +41,36 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return state;
   }
 }
+
+interface GameContextValue {
+  state: GameState;
+  makeMove: (index: number) => void;
+  resetGame: () => void;
+}
+
+const GameContext = createContext<GameContextValue | null>(null);
+
+export function GameProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(gameReducer, {
+    board: createEmptyBoard(),
+    currentPlayer: 'X',
+    result: null,
+  });
+
+  const makeMove = (index: number) => dispatch({ type: 'MAKE_MOVE', index });
+  const resetGame = () => dispatch({ type: 'RESET_GAME' });
+
+  return (
+    <GameContext.Provider value={{ state, makeMove, resetGame }}>
+      {children}
+    </GameContext.Provider>
+  );
+}
+
+export function useGame(): GameContextValue {
+  const context = useContext(GameContext);
+  if (!context) {
+    throw new Error('useGame must be used within a GameProvider');
+  }
+  return context;
+}
