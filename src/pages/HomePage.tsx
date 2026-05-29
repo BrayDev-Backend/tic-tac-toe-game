@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { Button } from '../components/Button';
 
 export function HomePage() {
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -14,10 +16,19 @@ export function HomePage() {
           <li>The game is played on a 3x3 grid</li>
           <li>Players take turns placing X or O</li>
           <li>The first to get 3 in a row wins</li>
-          <li>If all cells fill with no winner, it's a draw</li>
+          <li>If all cells fill with no winner, it&apos;s a draw</li>
         </ul>
       </div>
-      <Button onClick={() => navigate('/game')}>Start Game</Button>
+      {user ? (
+        <Button onClick={() => navigate('/game')}>Start Game</Button>
+      ) : (
+        <div className="home-actions">
+          <Button onClick={() => navigate('/login')}>Login to Play</Button>
+          <Button variant="secondary" onClick={() => navigate('/register')}>
+            Register
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
