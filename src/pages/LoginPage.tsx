@@ -25,13 +25,27 @@ export function LoginPage() {
     <div className="page">
       <h1 className="title">Login</h1>
       <form className="auth-form" onSubmit={handleSubmit}>
-        <input className="auth-input" type="email" placeholder="Email" ... />
-        <input className="auth-input" type="password" placeholder="Password" ... />
+        <input
+          className="auth-input"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          className="auth-input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         {error && <p className="error-message">{error}</p>}
-        <Button type="submit">Login</Button>
+        <Button>Login</Button>
       </form>
       <p className="auth-link">
-        Don't have an account? <Link to="/register">Register</Link>
+        Don&apos;t have an account? <Link to="/register">Register</Link>
       </p>
     </div>
   );
